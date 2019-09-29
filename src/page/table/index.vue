@@ -67,18 +67,21 @@ export default {
     // this.$socket.emit('readCsv')
     // this.$socket.emit('joinDataList', 'readCsvGroup')
     this.getData()
+    setInterval(() => {
+      this.getData()
+    }, 5000)
   },
   methods: {
     getData () {
       this.axios.get('https://fsn.dev/trace/trace-results.txt')
       .then(function (response) {
         console.log(response)
-        this.ConvertToTable(response, (table) => {
+        this.ConvertToTable(response.data, (table) => {
           this.tableData = table
         })
       })
       .catch(function (error) {
-        console.log(error);
+        console.log(error)
       })
     },
     ConvertToTable (data, callBack) {
