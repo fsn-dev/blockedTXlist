@@ -1,4 +1,5 @@
-const fs = require("fs");
+const fs = require("fs")
+const https = require('https')
 const path = require("path").resolve(".")
 const pathLink = path
 const config = require(pathLink + '/src/static/config/index')
@@ -28,20 +29,42 @@ function ConvertToTable(data, callBack) {
 }
 
 function readCsvGroup (io) {
-  fs.readFile(config.csvUrl, function (err, data) {
-      var table = new Array();
-      if (err) {
-          console.log(err.stack);
-          return;
-      }
-      // console.log(data)
-      ConvertToTable(data, function (table) {
-          // console.log(table)
-          // socket.emit(type, table)
-          tableData = table
-          io.sockets.in('readCsvGroup').emit('readCsvGroup', table)
+  https.get(config.csvUrl,function(res){
+		var html=''
+		res.on('data',function(data){
+			html += data
+		})
+		res.on('end',function(){
+			// socket.emit(type, html)
+      // mainCoinDollar = html
+      ConvertToTable(html, function (table) {
+        tableData = table
+        io.sockets.in('readCsvGroup').emit('readCsvGroup', table)
       })
-  })
+			setTimeout(() => {
+				getPrice()
+			}, 1000 * 60 * 60 * 8)
+		})
+	}).on('error',function(){
+		logger.error('获取资源出错！')
+		setTimeout(() => {
+			getPrice()
+		}, 1000 * 10)
+	})
+  // fs.readFile(config.csvUrl, function (err, data) {
+  //     var table = new Array();
+  //     if (err) {
+  //         console.log(err.stack);
+  //         return;
+  //     }
+  //     // console.log(data)
+  //     ConvertToTable(data, function (table) {
+  //         // console.log(table)
+  //         // socket.emit(type, table)
+  //         tableData = table
+  //         io.sockets.in('readCsvGroup').emit('readCsvGroup', table)
+  //     })
+  // })
   setTimeout(() => {
     readCsvGroup(io)
   }, config.intervalTime)
