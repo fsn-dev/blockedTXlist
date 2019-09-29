@@ -37,6 +37,7 @@ function readCsvGroup (io) {
 		res.on('end',function(){
 			// socket.emit(type, html)
       // mainCoinDollar = html
+      // console.log(html)
       ConvertToTable(html, function (table) {
         tableData = table
         io.sockets.in('readCsvGroup').emit('readCsvGroup', table)
