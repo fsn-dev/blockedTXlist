@@ -51,6 +51,7 @@
 </style>
 
 <script>
+const web3 = require('@/assets/js/web3')
 export default {
   name: 'TableList',
   data () {
