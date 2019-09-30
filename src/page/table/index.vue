@@ -87,7 +87,12 @@ export default {
         this.tableData = []
         let _tableData = d3.csvParse(response.data)
         console.log(_tableData)
-        for (let arr of _tableData) {
+        for (let arr1 of _tableData) {
+          let _obj = {}, arr = [], i = 0
+          for (let obj in arr1) {
+            arr[i] = obj
+            i++
+          }
           this.tableData.push({
             txhash: arr[0],
             blockheight: arr[1],
