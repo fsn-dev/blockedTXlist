@@ -8,12 +8,11 @@ const web3 = require(pathLink + '/server/methods/web3')
 let tableData = []
 
 function ConvertToTable(data, callBack) {
-  data = data.toString();
-  var table = new Array();
-  var rows = new Array();
-  rows = data.split("\r\n");
-  // console.log(data)
-  for (var i = 0; i < rows.length; i++) {
+  data = data.toString()
+  let table = new Array()
+  let rows = new Array()
+  rows = data.split("\r\n")
+  for (let i = 0; i < rows.length; i++) {
     let arr = rows[i].split(",")
     table.push({
       txhash: arr[0],
@@ -29,46 +28,42 @@ function ConvertToTable(data, callBack) {
 }
 
 function readCsvGroup (io) {
-  https.get(config.csvUrl,function(res){
-		var html=''
-		res.on('data',function(data){
-			html += data
-		})
-		res.on('end',function(){
-			// socket.emit(type, html)
-      // mainCoinDollar = html
-      // console.log(html)
-      ConvertToTable(html, function (table) {
+  if (config.csvUrl.indexOf('http') === 0) {
+    https.get(config.csvUrl,function(res){
+      let html=''
+      res.on('data',function(data){
+        html += data
+      })
+      res.on('end',function(){
+        ConvertToTable(html, function (table) {
+          tableData = table
+          io.sockets.in('readCsvGroup').emit('readCsvGroup', table)
+        })
+        setTimeout(() => {
+          readCsvGroup()
+        }, 1000 * 60 * 60 * 8)
+      })
+    }).on('error',function(){
+      setTimeout(() => {
+        readCsvGroup()
+      }, 1000 * 10)
+    })
+  } else {
+    fs.readFile(config.csvUrl, function (err, data) {
+      let table = new Array()
+      if (err) {
+        console.log(err.stack)
+        return
+      }
+      ConvertToTable(data, function (table) {
         tableData = table
         io.sockets.in('readCsvGroup').emit('readCsvGroup', table)
       })
-			setTimeout(() => {
-				getPrice()
-			}, 1000 * 60 * 60 * 8)
-		})
-	}).on('error',function(){
-		logger.error('获取资源出错！')
-		setTimeout(() => {
-			getPrice()
-		}, 1000 * 10)
-	})
-  // fs.readFile(config.csvUrl, function (err, data) {
-  //     var table = new Array();
-  //     if (err) {
-  //         console.log(err.stack);
-  //         return;
-  //     }
-  //     // console.log(data)
-  //     ConvertToTable(data, function (table) {
-  //         // console.log(table)
-  //         // socket.emit(type, table)
-  //         tableData = table
-  //         io.sockets.in('readCsvGroup').emit('readCsvGroup', table)
-  //     })
-  // })
-  setTimeout(() => {
-    readCsvGroup(io)
-  }, config.intervalTime)
+    })
+    setTimeout(() => {
+      readCsvGroup(io)
+    }, config.intervalTime)
+  }
   // console.log('Success')
 }
 

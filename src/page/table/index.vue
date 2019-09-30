@@ -1,5 +1,8 @@
 <template>
   <div class="container">
+    <div class="download">
+      <a :href="$$.config.csvUrl" download="CSV" target="_blank">点击下载CSV</a>
+    </div>
     <el-table
       ref="singleTable"
       :data="tableData"
@@ -42,7 +45,9 @@
 </template>
 
 <style>
-.container{max-width: 1200px;margin: auto;}
+.container{max-width: 1200px;margin: auto;padding: 0 15px;}
+.download{text-align: left;padding: 15px 0;}
+.download a{font-size: 14px!important;color: blue;}
 </style>
 
 <script>
