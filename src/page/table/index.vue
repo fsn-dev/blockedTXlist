@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="download">
-      <a :href="$$.config.csvUrl" download="CSV.csv" target="_blank">点击下载CSV</a>
+      <a :href="$$.config.csvUrl" download="trace-results.csv" target="_blank">点击下载CSV</a>
     </div>
     <el-table
       size="mini"
