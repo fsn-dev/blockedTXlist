@@ -80,13 +80,13 @@ export default {
     getData () {
       // this.axios.get('https://fsn.dev/trace/trace-results.csv')
       this.axios.get(this.$$.config.csvUrl)
-      .then(function (response) {
+      .then((response) => {
         console.log(response)
         this.ConvertToTable(response.data, (table) => {
           this.tableData = table
         })
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error)
       })
     },
