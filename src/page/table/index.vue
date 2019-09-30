@@ -4,6 +4,7 @@
       <a :href="$$.config.csvUrl" download="CSV.csv" target="_blank">点击下载CSV</a>
     </div>
     <el-table
+      size="mini"
       ref="singleTable"
       :data="tableData"
       highlight-current-row
@@ -11,6 +12,7 @@
       <el-table-column
         type="index"
         label="clolumns"
+        align="center"
         width="100">
       </el-table-column>
       <el-table-column label="txhash">
@@ -20,6 +22,7 @@
       </el-table-column>
       <el-table-column
         property="blockheight"
+        align="center"
         label="blockheight">
       </el-table-column>
       <el-table-column label="from">
@@ -33,6 +36,7 @@
         </template>
       </el-table-column>
       <el-table-column
+        align="center"
         label="value">
         <template slot-scope="scope">
            {{$$.thousandBit(scope.row.value, 'no')}}
@@ -50,6 +54,8 @@
 .container{max-width: 1200px;margin: auto;padding: 0 15px;}
 .download{text-align: right;padding: 15px 0;}
 .download a{font-size: 14px!important;color: blue;}
+.el-table--mini td, .el-table--mini th,.el-table td, .el-table th{padding: 0!important;text-align: center!important;}
+
 </style>
 
 <script>
