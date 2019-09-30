@@ -41,7 +41,7 @@
         align="center"
         label="value">
         <template slot-scope="scope">
-           {{$$.thousandBit(scope.row.value, 'no')}}
+           {{$$.thousandBit(scope.row.value, 0)}}
         </template>
       </el-table-column>
       <el-table-column
@@ -93,10 +93,10 @@ export default {
       // this.axios.get('http://localhost:8900/data/test.txt')
       // this.axios.get(this.$$.config.csvUrl)
       .then((response) => {
-        console.log(response)
+        // console.log(response)
         this.tableData = []
         let _tableData = d3.csvParse(response.data)
-        console.log(_tableData)
+        // console.log(_tableData)
         for (let arr1 of _tableData) {
           let _obj = {}, arr = [], i = 0
           for (let obj in arr1) {
