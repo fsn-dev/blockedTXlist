@@ -21,9 +21,11 @@
         </template>
       </el-table-column>
       <el-table-column
-        property="blockheight"
         align="center"
         label="blockheight">
+        <template slot-scope="scope">
+           <a :href="'https://blocks.fusionnetwork.io/#!/block/' + scope.row.blockheight" target="_blank" class="color_blue">{{scope.row.blockheight}}</a>
+        </template>
       </el-table-column>
       <el-table-column label="from">
         <template slot-scope="scope">
@@ -103,7 +105,7 @@ export default {
           }
           this.tableData.push({
             txhash: arr[0].replace(/\s/g, ''),
-            blockheight: arr[1],
+            blockheight: arr[1].replace(/\s/g, ''),
             from: arr[2].replace(/\s/g, ''),
             to: arr[3].replace(/\s/g, ''),
             value: web3.fromWei(arr[4], 'ether'),
