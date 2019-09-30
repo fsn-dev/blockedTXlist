@@ -79,11 +79,24 @@ export default {
   },
   methods: {
     getData () {
-      // this.axios.get('https://fsn.dev/trace/trace-results.csv')
-      this.axios.get(this.$$.config.csvUrl)
+      this.axios.get('https://fsn.dev/trace/trace-results.csv')
+      // this.axios.get('http://localhost:8900/data/test.txt')
+      // this.axios.get(this.$$.config.csvUrl)
       .then((response) => {
         console.log(response)
-        this.tableData = d3.csvParse(response.data)
+        this.tableData = []
+        let _tableData = d3.csvParse(response.data)
+        console.log(_tableData)
+        for (let arr of _tableData) {
+          this.tableData.push({
+            txhash: arr[0],
+            blockheight: arr[1],
+            from: arr[2],
+            to: arr[3],
+            value: web3.fromWei(arr[4], 'ether'),
+            sendtype: arr[5],
+          })
+        }
         // this.ConvertToTable(d3.csvParse(response.data), (table) => {
         //   this.tableData = table
         // })
