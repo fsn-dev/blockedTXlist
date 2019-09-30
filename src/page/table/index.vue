@@ -78,7 +78,7 @@ export default {
   methods: {
     getData () {
       // this.axios.get('https://fsn.dev/trace/trace-results.csv')
-      this.axios.get($$.config.csvUrl)
+      this.axios.get(this.$$.config.csvUrl)
       .then(function (response) {
         console.log(response)
         this.ConvertToTable(response.data, (table) => {
