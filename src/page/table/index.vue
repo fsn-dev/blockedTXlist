@@ -46,12 +46,13 @@
 
 <style>
 .container{max-width: 1200px;margin: auto;padding: 0 15px;}
-.download{text-align: left;padding: 15px 0;}
+.download{text-align: right;padding: 15px 0;}
 .download a{font-size: 14px!important;color: blue;}
 </style>
 
 <script>
 const web3 = require('@/assets/js/web3')
+const d3 = require('d3-dsv')
 export default {
   name: 'TableList',
   data () {
@@ -82,9 +83,10 @@ export default {
       this.axios.get(this.$$.config.csvUrl)
       .then((response) => {
         console.log(response)
-        this.ConvertToTable(response.data, (table) => {
-          this.tableData = table
-        })
+        this.tableData = d3.csvParse(response.data)
+        // this.ConvertToTable(d3.csvParse(response.data), (table) => {
+        //   this.tableData = table
+        // })
       })
       .catch((error) => {
         console.log(error)
