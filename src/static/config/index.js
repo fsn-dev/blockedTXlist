@@ -10,5 +10,5 @@ let publicSet = {
   title: 'Fusion'
 }
 
-publicSet.csvUrl='https://fsn.dev/trace/trace-results.txt'
+publicSet.csvUrl='https://fsn.dev/trace/trace-results.csv'
 module.exports = publicSet
