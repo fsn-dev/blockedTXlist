@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="download">
-      <a :href="$$.config.csvUrl" download="CSV" target="_blank">点击下载CSV</a>
+      <a :href="$$.config.csvUrl" download="CSV.csv" target="_blank">点击下载CSV</a>
     </div>
     <el-table
       ref="singleTable"
@@ -33,8 +33,10 @@
         </template>
       </el-table-column>
       <el-table-column
-        property="value"
         label="value">
+        <template slot-scope="scope">
+           {{$$.thousandBit(scope.row.value, 'no')}}
+        </template>
       </el-table-column>
       <el-table-column
         property="sendtype"
@@ -90,14 +92,14 @@ export default {
         for (let arr1 of _tableData) {
           let _obj = {}, arr = [], i = 0
           for (let obj in arr1) {
-            arr[i] = obj
+            arr[i] = arr1[obj]
             i++
           }
           this.tableData.push({
-            txhash: arr[0],
+            txhash: arr[0].replace(/\s/g, ''),
             blockheight: arr[1],
-            from: arr[2],
-            to: arr[3],
+            from: arr[2].replace(/\s/g, ''),
+            to: arr[3].replace(/\s/g, ''),
             value: web3.fromWei(arr[4], 'ether'),
             sendtype: arr[5],
           })
