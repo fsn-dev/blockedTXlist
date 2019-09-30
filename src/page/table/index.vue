@@ -89,9 +89,9 @@ export default {
   },
   methods: {
     getData () {
-      this.axios.get('https://fsn.dev/trace/trace-results.csv')
+      // this.axios.get('https://fsn.dev/trace/trace-results.csv')
       // this.axios.get('http://localhost:8900/data/test.txt')
-      // this.axios.get(this.$$.config.csvUrl)
+      this.axios.get(this.$$.config.csvUrl)
       .then((response) => {
         // console.log(response)
         this.tableData = []
